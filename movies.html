@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>موقع شبيه بـ نتفليكس</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-content {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .control-btn {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 18px;
+      border-radius: 4px;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>موقع شبيه بـ نتفليكس</h1>
+    <nav>
+      <ul>
+        <li><a href="#">الرئيسية</a></li>
+        <li><a href="#">الأفلام</a></li>
+        <li><a href="#">المسلسلات</a></li>
+        <li><a href="#">قائمتي</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="movies">
+      <h2>أفلام شهيرة</h2>
+      <div class="movie" onclick="embedVideo('1XB4Gc5AiJbqpgbtuooZfOVcvWzedUedL', this)">
+        <img src="https://www12.0zz0.com/2024/06/18/05/572654333.jpg" alt="صورة الفيلم">
+        <p class="movie-title">عنوان الفيلم 1</p>
+      </div>
+      <div class="movie" onclick="embedVideo('your_video_id_here', this)">
+        <img src="https://via.placeholder.com/150" alt="صورة الفيلم">
+        <p class="movie-title">عنوان الفيلم 2</p>
+      </div>
+      <div class="movie" onclick="embedVideo('your_video_id_here', this)">
+        <img src="https://via.placeholder.com/150" alt="صورة الفيلم">
+        <p class="movie-title">عنوان الفيلم 3</p>
+      </div>
+      <!-- يمكنك إضافة المزيد من عناصر الأفلام حسب الحاجة -->
+    </section>
+
+    <div id="video-container" class="video-container">
+      <div class="video-content">
+        <iframe id="video-iframe" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+        <div class="video-controls">
+          <button class="control-btn" onclick="maximizeVideo()">+</button>
+          <button class="control-btn" onclick="minimizeVideo()">-</button>
+          <button class="control-btn" onclick="closeVideo()">X</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 موقع شبيه بـ نتفليكس. جميع الحقوق محفوظة.</p>
+  </footer>
+
+  <script>
+    function embedVideo(videoId, clickedMovie) {
+      const iframe = document.getElementById('video-iframe');
+      iframe.src = `https://drive.google.com/file/d/${videoId}/preview`;
+
+      const movieTitle = clickedMovie.querySelector('.movie-title').textContent;
+
+      // Replace movie content with video iframe
+      clickedMovie.innerHTML = `
+        <iframe width="100%" height="100%" src="https://drive.google.com/file/d/${videoId}/preview" frameborder="0" allowfullscreen></iframe>
+        <p class="movie-title">${movieTitle}</p>
+      `;
+
+      // Show the video container
+      document.getElementById('video-container').style.display = 'flex';
+    }
+
+    function maximizeVideo() {
+      const videoIframe = document.getElementById('video-iframe');
+      videoIframe.style.width = '100%';
+      videoIframe.style.height = '100%';
+    }
+
+    function minimizeVideo() {
+      const videoIframe = document.getElementById('video-iframe');
+      videoIframe.style.width = '560px'; // or any initial width
+      videoIframe.style.height = '315px'; // or any initial height
+    }
+
+    function closeVideo() {
+      const videoContainer = document.getElementById('video-container');
+      videoContainer.style.display = 'none';
+
+      // Restore original content of movie element
+      const movieElement = document.querySelector('.movie iframe');
+      if (movieElement) {
+        const movieId = movieElement.getAttribute('data-movie-id');
+        const movieTitle = movieElement.getAttribute('data-movie-title');
+        movieElement.parentElement.innerHTML = `
+          <img src="https://via.placeholder.com/150" alt="صورة الفيلم">
+          <p class="movie-title">${movieTitle}</p>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
